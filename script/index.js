@@ -1,3 +1,16 @@
+const showLoader = () => {
+  const loader = document.getElementById("loader");
+  loader.classList.remove("hidden");
+  const videoContainer = document.getElementById("video-container");
+  videoContainer.classList.add("hidden");
+};
+const hideLoader = () => {
+  const loader = document.getElementById("loader");
+  loader.classList.add("hidden");
+  const videoContainer = document.getElementById("video-container");
+  videoContainer.classList.remove("hidden");
+};
+
 function loadCategory() {
   //  fetch the data
   fetch("https://openapi.programming-hero.com/api/phero-tube/categories")
@@ -14,6 +27,7 @@ function removeActive() {
   }
 }
 function loadVideos(searchText = "") {
+  showLoader();
   fetch(
     `https://openapi.programming-hero.com/api/phero-tube/videos?title=${searchText}`
   )
@@ -25,6 +39,7 @@ function loadVideos(searchText = "") {
 }
 
 const loadCategoryVideos = (id) => {
+  showLoader();
   const url = `https://openapi.programming-hero.com/api/phero-tube/category/${id}`;
 
   fetch(url)
@@ -119,6 +134,8 @@ const displayVideos = (videos) => {
       <h2  class="text-2xl font-bold">Oops!! sorry, There is no content here</h2>
     </div>
     `;
+    hideLoader();
+    return;
   }
 
   // keno forEach use korbo
@@ -161,6 +178,7 @@ const displayVideos = (videos) => {
     `;
     videoContainer.append(videoCard);
   });
+  hideLoader();
 };
 document.getElementById("search-input").addEventListener("keyup", (e) => {
   const input = e.target.value;
